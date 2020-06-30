@@ -1,0 +1,172 @@
+package com.uca.capas.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(schema="public", name="Usuarios")
+public class Usuario {
+	
+	@Id
+	@Column(name="id_usuario")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id_usuario;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Size(message = "El nombre de usuario no debe tener más de 30 caracteres", max=30)
+	@Column(name="nombre_usuario")
+	private String nombre_usuario;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Size(message = "La contraseña no debe tener más de 12 caracteres", max=12)
+	@Column(name="password")
+	private String password;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="estado")
+	private Boolean estado;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="tipo_usuario")
+	private Integer tipo_usuario;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Size(message = "El nombre no debe tener más de 12 caracteres", max=12)
+	@Column(name="nombre")
+	private String nombre;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Size(message = "El apellido no debe tener más de 12 caracteres", max=12)
+	@Column(name="apellido")
+	private String apellido;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="f_nacimiento")
+	private String f_nacimiento;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="edad")
+	private String edad;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="departamento")
+	private Integer departamento;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Column(name="municipio")
+	private Integer municipio;
+	
+	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@Size(message = "La dirección no debe tener más de 100 caracteres", max=100)
+	@Column(name="direccion")
+	private String direccion;
+	
+	public Usuario() {
+		
+	}
+
+	public Integer getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(Integer id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+
+	public String getNombre_usuario() {
+		return nombre_usuario;
+	}
+
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+	public Integer getTipo_usuario() {
+		return tipo_usuario;
+	}
+
+	public void setTipo_usuario(Integer tipo_usuario) {
+		this.tipo_usuario = tipo_usuario;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getF_nacimiento() {
+		return f_nacimiento;
+	}
+
+	public void setF_nacimiento(String f_nacimiento) {
+		this.f_nacimiento = f_nacimiento;
+	}
+
+	public String getEdad() {
+		return edad;
+	}
+
+	public void setEdad(String edad) {
+		this.edad = edad;
+	}
+
+	public Integer getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Integer departamento) {
+		this.departamento = departamento;
+	}
+
+	public Integer getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(Integer municipio) {
+		this.municipio = municipio;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	
+
+}

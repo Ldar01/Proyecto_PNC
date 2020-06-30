@@ -8,18 +8,17 @@
 		<version>2.3.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.uca.capas</groupId>
-	<artifactId>Proyecto</artifactId>
+	<groupId>com.uca</groupId>
+	<artifactId>roles_test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Proyecto</name>
-	<description>Proyecto de Programacion N-Capas</description>
+	<name>roles_test</name>
+	<description>roles testeo</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -62,8 +61,7 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-
-	 </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>
