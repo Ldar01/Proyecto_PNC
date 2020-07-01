@@ -38,6 +38,7 @@ public class MainController {
 		mav.setViewName("login");
 		return mav;
 	}
+
 	
 	@RequestMapping("/login")
 	public ModelAndView login(@RequestParam(value="nombre_usuario") String nombre_usuario, @RequestParam(value="password") String password) {
@@ -55,8 +56,15 @@ public class MainController {
 					return mav;
 				}
 				
-				//Todo en orden acceder.
-				System.out.print("Login success");
+				//Todo en orden verifiquemos que permisos tiene el usuario.
+				if(usuarios.get(0).getTipo_usuario() == 1) {
+					//admin
+					System.out.println("Usuario administrador.");
+					mav.addObject("usuario",usuarios.get(0));
+					mav.setViewName("index_admin");
+					return mav;
+				}
+				
 				mav.setViewName("index");
 				return mav;
 			}

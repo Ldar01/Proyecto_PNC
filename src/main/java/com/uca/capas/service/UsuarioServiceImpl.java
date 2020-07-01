@@ -1,7 +1,6 @@
 package com.uca.capas.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public List<Usuario> login(String usuario, String contrasena) throws DataAccessException {
-		return usuarioRepo.login(usuario, contrasena);
+		return usuarioRepo.login(usuario, contrasena);		
 	}
 
 
