@@ -1,5 +1,7 @@
 package com.uca.capas.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(schema="public", name="Usuarios")
@@ -28,13 +33,11 @@ public class Usuario {
 	@Column(name="password")
 	private String password;
 	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Column(name="estado")
-	private Boolean estado;
-	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
+	private Boolean estado = false; //Por defecto no activa
+
 	@Column(name="tipo_usuario")
-	private Integer tipo_usuario;
+	private Integer tipo_usuario = 2; //Por defecto coordinador
 	
 	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Size(message = "El nombre no debe tener más de 12 caracteres", max=12)
@@ -46,19 +49,18 @@ public class Usuario {
 	@Column(name="apellido")
 	private String apellido;
 	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@NotNull(message="Este campo no puede quedar vacío")
 	@Column(name="f_nacimiento")
-	private String f_nacimiento;
+	private Date f_nacimiento;
 	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
+	@NotNull(message="Este campo no puede quedar vacío")
 	@Column(name="edad")
-	private String edad;
+	private Integer edad;
 	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Column(name="departamento")
 	private Integer departamento;
 	
-	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Column(name="municipio")
 	private Integer municipio;
 	
@@ -127,19 +129,19 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	public String getF_nacimiento() {
+	public Date getF_nacimiento() {
 		return f_nacimiento;
 	}
 
-	public void setF_nacimiento(String f_nacimiento) {
+	public void setF_nacimiento(Date f_nacimiento) {
 		this.f_nacimiento = f_nacimiento;
 	}
 
-	public String getEdad() {
+	public Integer getEdad() {
 		return edad;
 	}
 
-	public void setEdad(String edad) {
+	public void setEdad(Integer edad) {
 		this.edad = edad;
 	}
 

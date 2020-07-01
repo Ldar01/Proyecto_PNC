@@ -2,13 +2,21 @@ package com.uca.capas.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.uca.capas.domain.Departamento;
+import com.uca.capas.domain.Municipio;
 import com.uca.capas.domain.Usuario;
+import com.uca.capas.service.DepartamentoService;
+import com.uca.capas.service.MunicipioService;
 import com.uca.capas.service.UsuarioService;
 
 @Controller
@@ -16,6 +24,10 @@ public class MainController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private DepartamentoService departamentoService;
+	@Autowired
+	private MunicipioService municipioService;
 	
 	@RequestMapping("/")
 	public ModelAndView initMain() {
@@ -23,7 +35,7 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.addObject("usuario",usuario);
-		mav.setViewName("index");
+		mav.setViewName("login");
 		return mav;
 	}
 	
@@ -45,7 +57,7 @@ public class MainController {
 				
 				//Todo en orden acceder.
 				System.out.print("Login success");
-				mav.setViewName("login");
+				mav.setViewName("index");
 				return mav;
 			}
 			
@@ -66,9 +78,44 @@ public class MainController {
 	@RequestMapping("/register")
 	public ModelAndView register() {
 		Usuario usuario = new Usuario();
+		List<Departamento> departamentos = null;
+		List<Municipio> municipios = null;
+		
+		departamentos = departamentoService.findAll();
+		municipios = municipioService.findAll();
+		
 		ModelAndView mav = new ModelAndView();
 		
 		mav.addObject("usuario",usuario);
+		mav.addObject("departamentos",departamentos);
+		mav.addObject("municipios",municipios);
+		
+		mav.setViewName("register");
+		return mav;
+	}
+	
+	@RequestMapping("/createAccount")
+	public ModelAndView formLibro(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		if(!result.hasErrors()) {
+			try {
+				usuarioService.insert(usuario);
+				mav.addObject("success_msg","¡Usuario creado con éxito!.");
+				mav.setViewName("register");
+				return mav;
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+
+		List<Departamento> departamentos = null;
+		List<Municipio> municipios = null;
+		departamentos = departamentoService.findAll();
+		municipios = municipioService.findAll();
+		mav.addObject("departamentos",departamentos);
+		mav.addObject("municipios",municipios);
+		
 		mav.setViewName("register");
 		return mav;
 	}
