@@ -63,7 +63,8 @@ public class MainController {
 		
 		//Verificamos si hay alguien en linea
 		List<CurrentSession> session = currentSessionService.findAll();
-		
+		System.out.println(session.get(0).getIp_session());
+		System.out.println(currentIp);
 		if(session.get(0).getIp_session().equals(currentIp)) {
 			//No hay nadie en linea, o es el mismo
 			if(usuario.getTipo_usuario() == 1) {
@@ -230,6 +231,7 @@ public class MainController {
 			for (int i = 0; i < mac.length; i++) {
 				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
 			}
+			System.out.print(sb.toString());
 			currentIp = sb.toString();
 
 		} catch (UnknownHostException e) {
