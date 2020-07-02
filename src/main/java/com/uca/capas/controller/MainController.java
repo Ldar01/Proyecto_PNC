@@ -45,7 +45,7 @@ public class MainController {
 
 	@RequestMapping("/")
 	public ModelAndView initMain() {
-		getCurrentRequestIp();
+		getCurrentRequestMacAddress();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("login");
 		return mav;
@@ -213,15 +213,30 @@ public class MainController {
 	//----------FIN MAPPING AUTENTICACION--------------
 	
 	//---------- GET MAC ADDRESS ---------------------
-	private void getCurrentRequestIp() {
+	private void getCurrentRequestMacAddress() {
 		InetAddress ip;
 		try {
 
 			ip = InetAddress.getLocalHost();
 			System.out.println("Current IP address : " + ip.getHostAddress());
-			currentIp = ip.getHostAddress();		
+
+			NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+
+			byte[] mac = network.getHardwareAddress();
+
+			System.out.print("Current MAC address : ");
+
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < mac.length; i++) {
+				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+			}
+			currentIp = sb.toString();
 
 		} catch (UnknownHostException e) {
+
+			e.printStackTrace();
+
+		} catch (SocketException e){
 
 			e.printStackTrace();
 
