@@ -1,9 +1,5 @@
 package com.uca.capas.controller;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,11 +16,11 @@ import com.uca.capas.domain.CurrentSession;
 import com.uca.capas.domain.Departamento;
 import com.uca.capas.domain.Municipio;
 import com.uca.capas.domain.Usuario;
-import com.uca.capas.repositories.CurrentSessionRepo;
 import com.uca.capas.service.CurrentSessionService;
 import com.uca.capas.service.DepartamentoService;
 import com.uca.capas.service.MunicipioService;
 import com.uca.capas.service.UsuarioService;
+import com.uca.capas.util.PasswordGenerator;
 
 @Controller
 public class MainController {
@@ -40,12 +36,13 @@ public class MainController {
 	
 	//Objeto que me permite determinar si el usuario a iniciado sesion.
 	private Usuario usuario;
+	private CurrentSession currentSession = new CurrentSession();
 	private String currentIp;
 	
 
 	@RequestMapping("/")
 	public ModelAndView initMain() {
-		getCurrentRequestMacAddress();
+		getToken();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("login");
 		return mav;
@@ -63,10 +60,14 @@ public class MainController {
 		
 		//Verificamos si hay alguien en linea
 		List<CurrentSession> session = currentSessionService.findAll();
-		System.out.println(session.get(0).getIp_session());
-		System.out.println(currentIp);
-		if(session.get(0).getIp_session().equals(currentIp)) {
-			//No hay nadie en linea, o es el mismo
+
+		if(session.size() == 0 ) {
+			//No hay nadie en linea
+			//le asignamos un token
+			currentSession.setIp_session(currentIp);
+			//ingresamos la sesion al sistema
+			currentSessionService.insert(currentSession);
+			
 			if(usuario.getTipo_usuario() == 1) {
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("index_admin");
@@ -110,24 +111,12 @@ public class MainController {
 				if (usuarios.get(0).getTipo_usuario() == 1) {
 
 					// admin
-					System.out.print("Usuario admin");
-					//Creamos la sesion
-					CurrentSession currentSession = new CurrentSession();
-					currentSession.setIp_session(currentIp);
-					//ingresamos la sesion al sistema
-					currentSessionService.insert(currentSession);
-					
-					usuario = usuarios.get(0);
-					
+					System.out.print("Usuario admin");								
+					usuario = usuarios.get(0);				
 					ModelAndView adminHomeModelAndView =  new ModelAndView("redirect:/home");
 					return adminHomeModelAndView;
 
 				}
-				//Creamos la sesion
-				CurrentSession currentSession = new CurrentSession();
-				currentSession.setIp_session(currentIp);
-				//ingresamos la sesion al sistema
-				currentSessionService.insert(currentSession);
 				usuario = usuarios.get(0);
 				ModelAndView homeModelAndView =  new ModelAndView("redirect:/home");
 				return homeModelAndView;
@@ -158,7 +147,7 @@ public class MainController {
 		
 		usuario = null;
 		//Eliminamos la ip
-		currentSessionService.delete(currentIp);
+		currentSessionService.delete(currentSession.getIp_session());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("error", "Se ha cerrado sesión");
@@ -214,34 +203,10 @@ public class MainController {
 	//----------FIN MAPPING AUTENTICACION--------------
 	
 	//---------- GET MAC ADDRESS ---------------------
-	private void getCurrentRequestMacAddress() {
-		InetAddress ip;
-		try {
-
-			ip = InetAddress.getLocalHost();
-			System.out.println("Current IP address : " + ip.getHostAddress());
-
-			NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-
-			byte[] mac = network.getHardwareAddress();
-
-			System.out.print("Current MAC address : ");
-
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < mac.length; i++) {
-				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-			}
-			System.out.print(sb.toString());
-			currentIp = sb.toString();
-
-		} catch (UnknownHostException e) {
-
-			e.printStackTrace();
-
-		} catch (SocketException e){
-
-			e.printStackTrace();
-
-		}
+	private void getToken() {
+		currentIp = PasswordGenerator.getPassword(PasswordGenerator.MINUSCULAS+
+				PasswordGenerator.MAYUSCULAS+
+				PasswordGenerator.ESPECIALES,10);
+		
 	}
 }
