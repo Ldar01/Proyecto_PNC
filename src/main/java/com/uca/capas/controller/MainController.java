@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +27,7 @@ import com.uca.capas.service.UsuarioService;
 import com.uca.capas.util.PasswordGenerator;
 
 @Controller
-public class MainController {
+public class MainController implements ErrorController{
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -58,6 +59,13 @@ public class MainController {
 	public ModelAndView home_admin() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index_admin");
+		return mav;
+	}
+	
+	@RequestMapping("/error")
+	public ModelAndView error() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("404");
 		return mav;
 	}
 
@@ -113,6 +121,11 @@ public class MainController {
 
 		mav.setViewName("register");
 		return mav;
+	}
+
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 	
 	//----------FIN MAPPING AUTENTICACION--------------
