@@ -21,110 +21,155 @@ import com.uca.capas.service.UsuarioService;
 
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
 	@Autowired
 	private DepartamentoService departamentoService;
 	@Autowired
 	private MunicipioService municipioService;
+
+	//Objeto que me permite determinar si el usuario a iniciado sesion.
+	private Usuario usuario;
 	
+
 	@RequestMapping("/")
 	public ModelAndView initMain() {
-		Usuario usuario = new Usuario();
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("usuario",usuario);
 		mav.setViewName("login");
 		return mav;
 	}
 
+	@RequestMapping("/home")
+	public ModelAndView home() {
+		if (usuario == null) {
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("error", "Inicia sesión antes.");
+			mav.setViewName("login");
+			return mav;
+		}
+		System.out.println(usuario.getNombre_usuario());
+		if(usuario.getTipo_usuario() == 1) {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("index_admin");
+			return mav;
+		}
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		return mav;
+
+	}
+
+	//----------AUTENTICACION--------------
 	
 	@RequestMapping("/login")
-	public ModelAndView login(@RequestParam(value="nombre_usuario") String nombre_usuario, @RequestParam(value="password") String password) {
+	public ModelAndView login(@RequestParam(value = "nombre_usuario") String nombre_usuario,
+			@RequestParam(value = "password") String password) {
 		ModelAndView mav = new ModelAndView();
 		List<Usuario> usuarios = null;
-		
+
 		try {
-			usuarios=usuarioService.login(nombre_usuario, password);
-			if(usuarios.size() > 0) {
-				//verificando si es activo
-				if(!usuarios.get(0).getEstado()) {
-					//no es activo
-					mav.addObject("error","El usuario " + usuarios.get(0).getNombre_usuario() +" se encuentra deshabilitado, consulte al administrador del sistema.");
+			usuarios = usuarioService.login(nombre_usuario, password);
+			if (usuarios.size() > 0) {
+				// verificando si es activo
+				if (!usuarios.get(0).getEstado()) {
+					// no es activo
+					mav.addObject("error", "El usuario " + usuarios.get(0).getNombre_usuario()
+							+ " se encuentra deshabilitado, consulte al administrador del sistema.");
 					mav.setViewName("login");
 					return mav;
 				}
-				
-				//Todo en orden verifiquemos que permisos tiene el usuario.
-				if(usuarios.get(0).getTipo_usuario() == 1) {
-					//admin
-					System.out.println("Usuario administrador.");
-					mav.addObject("usuario",usuarios.get(0));
-					mav.setViewName("index_admin");
-					return mav;
+
+				// Todo en orden verifiquemos que permisos tiene el usuario.
+				if (usuarios.get(0).getTipo_usuario() == 1) {
+
+					// admin
+					usuario = usuarios.get(0);
+					ModelAndView adminHomeModelAndView =  new ModelAndView("redirect:/home");
+					return adminHomeModelAndView;
+
 				}
-				
-				mav.setViewName("index");
-				return mav;
+
+				usuario = usuarios.get(0);
+				ModelAndView homeModelAndView =  new ModelAndView("redirect:/home");
+				return homeModelAndView;
 			}
-			
-			mav.addObject("error","Credenciales Inválidas");
+
+			mav.addObject("error", "Credenciales Inválidas");
 			mav.setViewName("login");
 			return mav;
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(nombre_usuario);
 		System.out.println(password);
 		mav.setViewName("login");
 		return mav;
 	}
 	
+	@RequestMapping("/logout")
+	public ModelAndView logout() {
+		if (usuario == null) {
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("error", "Ya ha cerrado sesión");
+			mav.setViewName("login");
+			return mav;
+		}
+		
+		usuario = null;
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("error", "Se ha cerrado sesión");
+		mav.setViewName("login");
+		return mav;
+	}
+
 	@RequestMapping("/register")
 	public ModelAndView register() {
 		Usuario usuario = new Usuario();
 		List<Departamento> departamentos = null;
 		List<Municipio> municipios = null;
-		
+
 		departamentos = departamentoService.findAll();
 		municipios = municipioService.findAll();
-		
+
 		ModelAndView mav = new ModelAndView();
-		
-		mav.addObject("usuario",usuario);
-		mav.addObject("departamentos",departamentos);
-		mav.addObject("municipios",municipios);
-		
+
+		mav.addObject("usuario", usuario);
+		mav.addObject("departamentos", departamentos);
+		mav.addObject("municipios", municipios);
+
 		mav.setViewName("register");
 		return mav;
 	}
-	
+
 	@RequestMapping("/createAccount")
-	public ModelAndView formLibro(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+	public ModelAndView createAccount(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
 		ModelAndView mav = new ModelAndView();
-		if(!result.hasErrors()) {
+		if (!result.hasErrors()) {
 			try {
 				usuarioService.insert(usuario);
-				mav.addObject("success_msg","¡Usuario creado con éxito!.");
+				mav.addObject("success_msg", "¡Usuario creado con éxito!.");
 				mav.setViewName("register");
 				return mav;
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		List<Departamento> departamentos = null;
 		List<Municipio> municipios = null;
 		departamentos = departamentoService.findAll();
 		municipios = municipioService.findAll();
-		mav.addObject("departamentos",departamentos);
-		mav.addObject("municipios",municipios);
-		
+		mav.addObject("departamentos", departamentos);
+		mav.addObject("municipios", municipios);
+
 		mav.setViewName("register");
 		return mav;
 	}
+	
+	//----------FIN MAPPING AUTENTICACION--------------
 }
