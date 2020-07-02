@@ -4,9 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -25,19 +29,19 @@ public class Usuario {
 	
 	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Size(message = "El nombre de usuario no debe tener más de 30 caracteres", max=30)
-	@Column(name="nombre_usuario")
-	private String nombre_usuario;
+	@Column(name="usuario")
+	private String usuario;
 	
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Size(message = "La contraseña no debe tener más de 12 caracteres", max=12)
 	@Column(name="password")
 	private String password;
 	
 	@Column(name="estado")
 	private Boolean estado = false; //Por defecto no activa
-
-	@Column(name="tipo_usuario")
-	private Integer tipo_usuario = 2; //Por defecto coordinador
+	
+	@OneToOne
+    @JoinColumn(name = "tipo_usuario", referencedColumnName = "id_rol")
+	private Rol rol;
 	
 	@NotEmpty(message = "Este campo no puede estar vacio.")
 	@Size(message = "El nombre no debe tener más de 12 caracteres", max=12)
@@ -73,6 +77,18 @@ public class Usuario {
 		
 	}
 
+	public Rol getRol() {
+		return rol;
+	}
+
+
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
+
+
 	public Integer getId_usuario() {
 		return id_usuario;
 	}
@@ -80,13 +96,23 @@ public class Usuario {
 	public void setId_usuario(Integer id_usuario) {
 		this.id_usuario = id_usuario;
 	}
+	
+	
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 	public String getNombre_usuario() {
-		return nombre_usuario;
+		return usuario;
 	}
 
 	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+		this.usuario = nombre_usuario;
 	}
 
 	public String getPassword() {
@@ -103,14 +129,6 @@ public class Usuario {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public Integer getTipo_usuario() {
-		return tipo_usuario;
-	}
-
-	public void setTipo_usuario(Integer tipo_usuario) {
-		this.tipo_usuario = tipo_usuario;
 	}
 
 	public String getNombre() {

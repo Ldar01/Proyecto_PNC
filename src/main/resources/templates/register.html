@@ -77,8 +77,8 @@
                 <hr>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" th:field="*{nombre_usuario}" class="form-control form-control-user" id="exampleInputPassword" placeholder="Usuario">
-                    <span th:errors = "*{nombre_usuario}" style="color: #E81505"></span>
+                    <input type="text" th:field="*{usuario}" class="form-control form-control-user" id="exampleInputPassword" placeholder="Usuario">
+                    <span th:errors = "*{usuario}" style="color: #E81505"></span>
                   </div>
                   <div class="col-sm-6">
                     <input type="password" th:field="*{password}" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Contraseña">
@@ -107,8 +107,6 @@
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

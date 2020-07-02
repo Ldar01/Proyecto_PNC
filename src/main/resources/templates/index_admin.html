@@ -19,7 +19,6 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
-
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -239,7 +238,9 @@
         <div class="modal-body">Selecciona "salir" para terminar tu sesión.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="/logout">Salir</a>
+          <form th:action="@{/logout}" method="post">
+            	<input class="btn btn-primary" type="submit" value="Cerrar Sesion"/>
+        	</form>
         </div>
       </div>
     </div>
@@ -261,6 +262,7 @@
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
+ 
 
 </body>
 

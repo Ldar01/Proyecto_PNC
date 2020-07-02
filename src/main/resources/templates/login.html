@@ -38,11 +38,12 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900">¡Bienvenido!</h1>
-                    <p th:text="${error}" style="color: red;"></p>                 
+                    <p th:if="${param.error}" style="color: red;">Credenciales incorrectas, o el usuario se encuentra desactivado.</p>  
+                    <p th:if="${param.logout}" style="color: red;">Se ha cerrado sesión.</p>                  
                   </div>
-                  <form class="user" th:action="@{/login}" th:object="${usuario}" method="post">
+                  <form class="user" th:action="@{/login}" method="post">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="nombre_usuario" name="nombre_usuario" aria-describedby="emailHelp" placeholder="Usuario" required>
+                      <input type="text" class="form-control form-control-user" id="nombre_usuario" name="username" aria-describedby="emailHelp" placeholder="Usuario" required>
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Contraseña" required>
@@ -72,8 +73,6 @@
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
