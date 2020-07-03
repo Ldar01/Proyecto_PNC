@@ -27,7 +27,7 @@ import com.uca.capas.service.UsuarioService;
 import com.uca.capas.util.PasswordGenerator;
 
 @Controller
-public class MainController implements ErrorController{
+public class MainController implements ErrorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -37,11 +37,11 @@ public class MainController implements ErrorController{
 	private MunicipioService municipioService;
 	@Autowired
 	private CurrentSessionService currentSessionService;
-	
-	//Objeto que me permite determinar si el usuario a iniciado sesion.
+
+	// Objeto que me permite determinar si el usuario a iniciado sesion.
 	private Usuario usuario;
 
-	@RequestMapping({"/","/login"})
+	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("login");
@@ -54,14 +54,14 @@ public class MainController implements ErrorController{
 		mav.setViewName("index");
 		return mav;
 	}
-	
+
 	@RequestMapping("/home_admin")
 	public ModelAndView home_admin() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index_admin");
 		return mav;
 	}
-	
+
 	@RequestMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
@@ -69,8 +69,82 @@ public class MainController implements ErrorController{
 		return mav;
 	}
 
-	//----------AUTENTICACION--------------	
+	@RequestMapping("/activate_user")
+	public ModelAndView activate_user() {
+		ModelAndView mav = new ModelAndView();
+		List<Usuario> usuarios = null;
+		usuarios = usuarioService.findAll();
+		mav.addObject("usuarios", usuarios);
+		mav.setViewName("activate");
+		return mav;
+	}
 
+	@RequestMapping("/perfom_activation")
+	public ModelAndView perfom_activation(@RequestParam(value = "id_usuario") int id_usuario) {
+		ModelAndView mav = new ModelAndView();
+		List<Usuario> usuarios = null;
+
+		try {
+			Usuario us = new Usuario();
+			us = usuarioService.findOne(id_usuario);
+			us.setEstado(true);
+			usuarioService.insert(us);
+			usuarios = usuarioService.findAll();
+			mav.addObject("usuarios", usuarios);
+			mav.setViewName("activate");
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		usuarios = usuarioService.findAll();
+		mav.addObject("usuarios", usuarios);
+		mav.setViewName("activate");
+		return mav;
+	}
+
+	@RequestMapping("/perfom_desactivation")
+	public ModelAndView perfom_desactivation(@RequestParam(value = "id_usuario") int id_usuario) {
+		ModelAndView mav = new ModelAndView();
+		List<Usuario> usuarios = null;
+
+		try {
+			Usuario us = new Usuario();
+			us = usuarioService.findOne(id_usuario);
+			us.setEstado(false);
+			usuarioService.insert(us);
+			usuarios = usuarioService.findAll();
+			mav.addObject("usuarios", usuarios);
+			mav.setViewName("activate");
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		usuarios = usuarioService.findAll();
+		mav.addObject("usuarios", usuarios);
+		mav.setViewName("activate");
+		return mav;
+	}
+
+	@RequestMapping("/perfom_delete")
+	public ModelAndView perfom_delete(@RequestParam(value = "id_usuario") int id_usuario) {
+		ModelAndView mav = new ModelAndView();
+		List<Usuario> usuarios = null;
+
+		try {
+			usuarioService.delete(id_usuario);
+			usuarios = usuarioService.findAll();
+			mav.addObject("usuarios", usuarios);
+			mav.setViewName("activate");
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		usuarios = usuarioService.findAll();
+		mav.addObject("usuarios", usuarios);
+		mav.setViewName("activate");
+		return mav;
+	}
+	
 	@RequestMapping("/register")
 	public ModelAndView register() {
 		Usuario usuario = new Usuario();
@@ -95,13 +169,13 @@ public class MainController implements ErrorController{
 		ModelAndView mav = new ModelAndView();
 		if (!result.hasErrors()) {
 			try {
-				//por defecto le asignamos el rol de coordinador
+				// por defecto le asignamos el rol de coordinador
 				Rol rol = new Rol();
 				rol.setId_rol(2);
 				rol.setNombre_rol("ROLE_COORDINADOR");
-				
+
 				usuario.setRol(rol);
-				
+
 				usuarioService.insert(usuario);
 				mav.addObject("success_msg", "¡Usuario creado con éxito!.");
 				mav.setViewName("register");
@@ -127,7 +201,4 @@ public class MainController implements ErrorController{
 	public String getErrorPath() {
 		return "/error";
 	}
-	
-	//----------FIN MAPPING AUTENTICACION--------------
-	
 }

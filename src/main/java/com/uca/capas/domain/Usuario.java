@@ -130,6 +130,10 @@ public class Usuario {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+	
+	public String getEstado_delegate() {
+		return this.estado ? "Activa" : "No Activa";
+	}
 
 	public String getNombre() {
 		return nombre;
