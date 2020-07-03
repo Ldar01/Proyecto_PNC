@@ -48,6 +48,7 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
+
 	@RequestMapping("/home")
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();

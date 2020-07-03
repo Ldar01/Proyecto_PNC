@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeRequests()
 			.antMatchers(resources).permitAll()
-			.antMatchers("/","/register","/createAccount").permitAll()
+			.antMatchers("/","/register","/createAccount","/active_user").permitAll()
 	        .antMatchers("/home_admin*").access("hasRole('ADMIN')")
 	        .antMatchers("/perfom_activation*").access("hasRole('ADMIN')")
 	        .antMatchers("/home*").access("hasRole('COORDINADOR') or hasRole('ADMIN')")
@@ -58,7 +58,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
        .logout()
             .permitAll()
-            .logoutSuccessUrl("/login?logout");
+            .logoutSuccessUrl("/login?logout")
+            .and()
+       .sessionManagement()
+            .maximumSessions(1);
+           
+  
 	}
 	
 	
