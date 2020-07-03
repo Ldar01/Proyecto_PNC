@@ -38,7 +38,7 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900">¡Bienvenido!</h1>
-                    <p th:if="${param.error}" style="color: red;">Credenciales incorrectas, o el usuario se encuentra desactivado.</p>  
+                    <p th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" style="color: red;"></p>  
                     <p th:if="${param.logout}" style="color: red;">Se ha cerrado sesión.</p>                  
                   </div>
                   <form class="user" th:action="@{/login}" method="post">

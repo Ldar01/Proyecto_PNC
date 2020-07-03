@@ -2,25 +2,27 @@ package com.uca.capas.controller;
 
 import java.util.List;
 
+import javax.naming.AuthenticationException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uca.capas.domain.CurrentSession;
 import com.uca.capas.domain.Departamento;
 import com.uca.capas.domain.Municipio;
-import com.uca.capas.domain.Rol;
 import com.uca.capas.domain.Usuario;
-import com.uca.capas.service.CurrentSessionService;
 import com.uca.capas.service.DepartamentoService;
 import com.uca.capas.service.MunicipioService;
 import com.uca.capas.service.UsuarioService;
@@ -35,11 +37,6 @@ public class MainController implements ErrorController {
 	private DepartamentoService departamentoService;
 	@Autowired
 	private MunicipioService municipioService;
-	@Autowired
-	private CurrentSessionService currentSessionService;
-
-	// Objeto que me permite determinar si el usuario a iniciado sesion.
-	private Usuario usuario;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -47,8 +44,7 @@ public class MainController implements ErrorController {
 		mav.setViewName("login");
 		return mav;
 	}
-
-
+	
 	@RequestMapping("/home")
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
@@ -86,10 +82,7 @@ public class MainController implements ErrorController {
 		List<Usuario> usuarios = null;
 
 		try {
-			Usuario us = new Usuario();
-			us = usuarioService.findOne(id_usuario);
-			us.setEstado(true);
-			usuarioService.insert(us);
+			usuarioService.updateEstado(id_usuario, true);
 			usuarios = usuarioService.findAll();
 			mav.addObject("usuarios", usuarios);
 			mav.setViewName("activate");
@@ -109,10 +102,7 @@ public class MainController implements ErrorController {
 		List<Usuario> usuarios = null;
 
 		try {
-			Usuario us = new Usuario();
-			us = usuarioService.findOne(id_usuario);
-			us.setEstado(false);
-			usuarioService.insert(us);
+			usuarioService.updateEstado(id_usuario, false);
 			usuarios = usuarioService.findAll();
 			mav.addObject("usuarios", usuarios);
 			mav.setViewName("activate");
@@ -168,17 +158,16 @@ public class MainController implements ErrorController {
 	@RequestMapping("/createAccount")
 	public ModelAndView createAccount(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
 		ModelAndView mav = new ModelAndView();
+		List<Departamento> departamentos = null;
+		List<Municipio> municipios = null;
 		if (!result.hasErrors()) {
 			try {
-				// por defecto le asignamos el rol de coordinador
-				Rol rol = new Rol();
-				rol.setId_rol(2);
-				rol.setNombre_rol("ROLE_COORDINADOR");
-
-				usuario.setRol(rol);
-
 				usuarioService.insert(usuario);
 				mav.addObject("success_msg", "¡Usuario creado con éxito!.");
+				departamentos = departamentoService.findAll();
+				municipios = municipioService.findAll();
+				mav.addObject("departamentos", departamentos);
+				mav.addObject("municipios", municipios);
 				mav.setViewName("register");
 				return mav;
 			} catch (Exception e) {
@@ -187,8 +176,7 @@ public class MainController implements ErrorController {
 
 		}
 
-		List<Departamento> departamentos = null;
-		List<Municipio> municipios = null;
+		
 		departamentos = departamentoService.findAll();
 		municipios = municipioService.findAll();
 		mav.addObject("departamentos", departamentos);

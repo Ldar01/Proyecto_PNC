@@ -16,6 +16,6 @@ public interface UsuarioService {
 
 	public void delete(Integer id_usuario) throws DataAccessException;
 
-	public List<Usuario> login(String usuario, String contrasena) throws DataAccessException;
+	public void updateEstado(Integer id_usuario, Boolean estado) throws DataAccessException;
 	
 }

@@ -19,75 +19,70 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(schema="public", name="Usuarios")
+@Table(schema = "public", name = "Usuarios")
 public class Usuario {
-	
+
 	@Id
-	@Column(name="id_usuario")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id_usuario")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_usuario;
-	
+
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Size(message = "El nombre de usuario no debe tener más de 30 caracteres", max=30)
-	@Column(name="usuario")
+	@Size(message = "El nombre de usuario no debe tener más de 30 caracteres", max = 30)
+	@Column(name = "usuario")
 	private String usuario;
-	
+
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Column(name="password")
+	@Column(name = "password")
 	private String password;
-	
-	@Column(name="estado")
-	private Boolean estado = false; //Por defecto no activa
-	
-	@OneToOne
-    @JoinColumn(name = "tipo_usuario", referencedColumnName = "id_rol")
-	private Rol rol;
-	
+
+	@Column(name = "estado")
+	private Boolean estado = false; // Por defecto no activa
+
+	@Column(name = "tipo_usuario")
+	private Integer tipo_usuario = 2;
+
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Size(message = "El nombre no debe tener más de 12 caracteres", max=12)
-	@Column(name="nombre")
+	@Size(message = "El nombre no debe tener más de 12 caracteres", max = 12)
+	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Size(message = "El apellido no debe tener más de 12 caracteres", max=12)
-	@Column(name="apellido")
+	@Size(message = "El apellido no debe tener más de 12 caracteres", max = 12)
+	@Column(name = "apellido")
 	private String apellido;
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@NotNull(message="Este campo no puede quedar vacío")
-	@Column(name="f_nacimiento")
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Este campo no puede quedar vacío")
+	@Column(name = "f_nacimiento")
 	private Date f_nacimiento;
-	
-	@NotNull(message="Este campo no puede quedar vacío")
-	@Column(name="edad")
+
+	@NotNull(message = "Este campo no puede quedar vacío")
+	@Column(name = "edad")
 	private Integer edad;
-	
-	@Column(name="departamento")
+
+	@Column(name = "departamento")
 	private Integer departamento;
-	
-	@Column(name="municipio")
+
+	@Column(name = "municipio")
 	private Integer municipio;
-	
+
 	@NotEmpty(message = "Este campo no puede estar vacio.")
-	@Size(message = "La dirección no debe tener más de 100 caracteres", max=100)
-	@Column(name="direccion")
+	@Size(message = "La dirección no debe tener más de 100 caracteres", max = 100)
+	@Column(name = "direccion")
 	private String direccion;
-	
+
 	public Usuario() {
-		
+
 	}
 
-	public Rol getRol() {
-		return rol;
+	public Integer getTipo_usuario() {
+		return tipo_usuario;
 	}
 
-
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
+	public void setTipo_usuario(Integer tipo_usuario) {
+		this.tipo_usuario = tipo_usuario;
 	}
-
-
 
 	public Integer getId_usuario() {
 		return id_usuario;
@@ -96,8 +91,6 @@ public class Usuario {
 	public void setId_usuario(Integer id_usuario) {
 		this.id_usuario = id_usuario;
 	}
-	
-	
 
 	public String getUsuario() {
 		return usuario;
@@ -130,7 +123,7 @@ public class Usuario {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-	
+
 	public String getEstado_delegate() {
 		return this.estado ? "Activa" : "No Activa";
 	}
@@ -191,6 +184,9 @@ public class Usuario {
 		this.direccion = direccion;
 	}
 	
-	
+	public String getRol_delegate() {
+		return this.tipo_usuario == 1 ? "ADMIN" : "COORDINADOR";
+	}
+
 
 }

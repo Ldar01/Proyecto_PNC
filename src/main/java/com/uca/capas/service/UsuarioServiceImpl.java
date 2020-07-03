@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -52,26 +56,56 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	}
 
 	@Override
-	public List<Usuario> login(String usuario, String contrasena) throws DataAccessException {
-		return usuarioRepo.login(usuario, contrasena);
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, BadCredentialsException {
 		Usuario usuario = usuarioRepo.findByUsuario(username);
 
 		List<GrantedAuthority> roles = new ArrayList<>();
 		
-		if(usuario.getEstado()) {
-			roles.add(new SimpleGrantedAuthority(usuario.getRol().getNombre_rol()));
+		Boolean isSomeOneLog = false;
 
-			UserDetails userDet = new User(usuario.getNombre_usuario(), usuario.getPassword(), roles);
-			return userDet;
-		}else {
-			throw new UsernameNotFoundException("El usuario está desactivado.");
+		if(currentUserDetails()!=null) {
+			isSomeOneLog = true;
+		}
+		
+
+		if (usuario == null) {
+			throw new BadCredentialsException("Credenciales incorrectas.");
+		}
+		
+		if(isSomeOneLog) {
+			throw new BadCredentialsException("Actualmente hay un usuario dentro del sistema. Por favor regresa más tarde.");
 		}
 
-		
+		if (usuario.getEstado()) {
+			if (usuario.getTipo_usuario() == 1) {
+				roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+			} else {
+				roles.add(new SimpleGrantedAuthority("ROLE_COORDINADOR"));
+			}
+
+			UserDetails userDet = new User(usuario.getUsuario(), usuario.getPassword(), roles);
+
+			return userDet;
+		} else {
+			throw new BadCredentialsException("El usuario " + usuario.getUsuario()
+					+ " actualmente se encuentra desactivado. consulte con su administrador de sistema.");
+		}
+
+	}
+
+	@Override
+	public void updateEstado(Integer id_usuario, Boolean estado) throws DataAccessException {
+		usuarioRepo.updateEstado(id_usuario, estado);
+	}
+	
+	public UserDetails currentUserDetails(){
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    Authentication authentication = securityContext.getAuthentication();
+	    if (authentication != null) {
+	        Object principal = authentication.getPrincipal();
+	        return principal instanceof UserDetails ? (UserDetails) principal : null;
+	    }
+	    return null;
 	}
 
 }
