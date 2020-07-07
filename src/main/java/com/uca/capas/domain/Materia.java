@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 public class Materia {
 
 	@Id
-	@Column(name = "id_institucion")
+	@Column(name = "id_materia")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_materia;
 	
