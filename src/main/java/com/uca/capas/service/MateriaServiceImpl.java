@@ -7,7 +7,9 @@ import org.springframework.dao.DataAccessException;
 
 import com.uca.capas.domain.Materia;
 import com.uca.capas.repositories.MateriaRepo;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MateriaServiceImpl implements MateriaService{
 
 	@Autowired

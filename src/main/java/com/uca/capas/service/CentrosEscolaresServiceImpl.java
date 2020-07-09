@@ -7,7 +7,9 @@ import org.springframework.dao.DataAccessException;
 
 import com.uca.capas.domain.CentroEscolar;
 import com.uca.capas.repositories.CentroEscolarRepo;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CentrosEscolaresServiceImpl implements CentrosEscolaresService{
 	
 	@Autowired

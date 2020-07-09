@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.uca.capas.domain.CentroEscolar;
+import com.uca.capas.service.CentrosEscolaresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.web.WebAttributes;
@@ -33,10 +35,15 @@ public class MainController implements ErrorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
 	@Autowired
 	private DepartamentoService departamentoService;
+
 	@Autowired
 	private MunicipioService municipioService;
+
+	@Autowired
+	private CentrosEscolaresService centrosEscolaresService;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -47,7 +54,12 @@ public class MainController implements ErrorController {
 	
 	@RequestMapping("/home")
 	public ModelAndView home() {
+		List<CentroEscolar> centrosEscolares = centrosEscolaresService.findAll();
+
+		Municipio municipio = new Municipio();
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("municipio", municipio);
+		mav.addObject("centrosEscolares",centrosEscolares);
 		mav.setViewName("index");
 		return mav;
 	}
