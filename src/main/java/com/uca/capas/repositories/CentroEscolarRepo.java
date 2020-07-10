@@ -12,4 +12,5 @@ public interface CentroEscolarRepo extends JpaRepository<CentroEscolar, Integer>
 	public void updateEstado(Integer id_institucion, Boolean estado) throws DataAccessException;
 
 	CentroEscolar findByCentroEscolar(String nombre_institucion);
+	
 }

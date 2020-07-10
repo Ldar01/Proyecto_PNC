@@ -26,7 +26,7 @@ public class Estudiante {
 	@Id
 	@Column(name="id_estudiante")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer codigoEstudiante;
+	private Integer id_estudiante;
 	
 	@Column(name="primer_nombre")
 	@Size(min=1,max=30)
@@ -86,14 +86,20 @@ public class Estudiante {
 	}
 
 
-	public Integer getCodigoEstudiante() {
-		return codigoEstudiante;
+	
+
+	public Integer getId_estudiante() {
+		return id_estudiante;
 	}
 
 
-	public void setCodigoEstudiante(Integer codigoEstudiante) {
-		this.codigoEstudiante = codigoEstudiante;
+
+
+	public void setId_estudiante(Integer id_estudiante) {
+		this.id_estudiante = id_estudiante;
 	}
+
+
 
 
 	public String getPrimer_nombre() {
