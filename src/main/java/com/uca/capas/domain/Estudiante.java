@@ -1,6 +1,8 @@
 package com.uca.capas.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,43 +31,51 @@ public class Estudiante {
 	private Integer id_estudiante;
 	
 	@Column(name="primer_nombre")
-	@Size(min=1,max=30)
+	@NotEmpty
+	@Size(min=1,max=12,message = "El campo no debe tener más de 12 caracteres")
 	private String primer_nombre;
 	
 	@Column(name="segundo_nombre")
-	@Size(min=1,max=30)
+	@NotEmpty
+	@Size(min=1,max=12,message = "El campo no debe tener más de 12 caracteres")
 	private String segundo_nombre;
 	
 	@Column(name="primer_apellido")
-	@Size(min=1,max=30)
+	@NotEmpty
+	@Size(min=1,max=12,message = "El campo no debe tener más de 12 caracteres")
 	private String primer_apellido;
 	
 	@Column(name="segundo_apellido")
-	@Size(min=1,max=30)
+	@NotEmpty
+	@Size(min=1,max=12,message = "El campo no debe tener más de 12 caracteres")
 	private String segundo_apellido;
 	
 	@Column(name="carnet")
-	@Size(min=1,max=9)
+	@NotEmpty
+	@Size(min=1,max=9,message = "El campo no debe tener más de 9 caracteres")
 	private String carnet;
-	
+
 	@Column(name="f_nacimiento")
-	@CreationTimestamp
-	@DateTimeFormat(pattern="dd/MM/yyyy hh:mm:ss a")
-	private LocalDateTime f_nacimiento;
+	@NotNull(message = "Este campo no puede quedar vacío")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate f_nacimiento;
 	
 	@Column(name="edad")
 	private Integer edad;
 	
 	@Column(name="direccion")
-	@Size(min=1,max=100)
+	@NotEmpty
+	@Size(min=1,max=100,message = "El campo no debe tener más de 100 caracteres")
 	private String direccion;
 	
 	@Column(name="tel_f")
-	@Size(min=1,max=8)
+	@NotEmpty
+	@Size(min=1,max=8,message = "El campo no debe tener más de 8 caracteres")
 	private String tel_f;
 	
 	@Column(name="tel_m")
-	@Size(min=1,max=8)
+	@NotEmpty
+	@Size(min=1,max=8,message = "El campo no debe tener más de 8 caracteres")
 	private String tel_m;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -73,12 +83,13 @@ public class Estudiante {
 	private CentroEscolar institucion;
 	
 	@Column(name="nombre_padre")
-	@Size(min=1,max=50)
+	@NotEmpty
+	@Size(min=1,max=50,message = "El campo no debe tener más de 50 caracteres")
 	private String nombre_padre;
 	
-	
 	@Column(name="nombre_madre")
-	@Size(min=1,max=50)
+	@NotEmpty
+	@Size(min=1,max=8,message = "El campo no debe tener más de 50 caracteres")
 	private String nombre_madre;
 
 
@@ -152,12 +163,12 @@ public class Estudiante {
 	}
 
 
-	public LocalDateTime getF_nacimiento() {
+	public LocalDate getF_nacimiento() {
 		return f_nacimiento;
 	}
 
 
-	public void setF_nacimiento(LocalDateTime f_nacimiento) {
+	public void setF_nacimiento(LocalDate f_nacimiento) {
 		this.f_nacimiento = f_nacimiento;
 	}
 

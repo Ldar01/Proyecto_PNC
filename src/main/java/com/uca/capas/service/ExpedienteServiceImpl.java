@@ -3,6 +3,7 @@ package com.uca.capas.service;
 import java.util.List;
 
 import com.uca.capas.domain.Expediente;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 
@@ -12,8 +13,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ExpedienteServiceImpl implements ExpedienteService {
-	
+	@Autowired
 	ExpedienteRepo expedienteRepo;
+
+	@Override
+	public List<Expediente> findExpedienteByNombreOrApellido(String nombre,String apellido) throws DataAccessException {
+		return expedienteRepo.findExpedienteByNombreOrApellido(nombre,apellido);
+	}
 
 	@Override
 	public Expediente findOne(Integer id_estudiante) throws DataAccessException {
@@ -27,11 +33,5 @@ public class ExpedienteServiceImpl implements ExpedienteService {
 		expedienteRepo.save(expediente);
 	}
 
-	@Override
-	public List<Expediente> findByPrimer_nombreOrPrimer_apellido(String primer_nombre, String primer_apellido)
-			throws DataAccessException {
-		// TODO Auto-generated method stub
-		return expedienteRepo.findByPrimer_nombreOrPrimer_apellido(primer_nombre, primer_apellido);
-	}
-
 }
+

@@ -13,9 +13,7 @@ import com.uca.capas.domain.Usuario;
 
 public interface EstudianteMateriaRepo extends JpaRepository<EstudianteMateria, Integer> {
 	
-	@Query(value = "SELECT id_materia_cursada,anio,ciclo,nota, CASE WHEN nota > 6 then 'Aprobada' else 'Reprobada' end as resultado" + 
-			" from materias_cursadas where materias_cursadas.id_estudiante = ?1", nativeQuery = true)
-	List<EstudianteMateriaV> findById_estudiante(int id_estudiante);
+
 	
 	
 }

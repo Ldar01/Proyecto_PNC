@@ -1,10 +1,9 @@
 package com.uca.capas.controller;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
-import javax.naming.AuthenticationException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.uca.capas.domain.*;
@@ -13,21 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uca.capas.util.PasswordGenerator;
-
 @Controller
 public class MainController implements ErrorController {
+
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -46,6 +41,9 @@ public class MainController implements ErrorController {
 
 	@Autowired
 	private EstudianteService estudianteService;
+
+	@Autowired
+	private ExpedienteService expedienteService;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -67,6 +65,27 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
+	@RequestMapping("/expedientes")
+	public ModelAndView expedientes() {
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("estudiantes_options");
+		return mav;
+	}
+
+	@RequestMapping("/estudiantes")
+	public ModelAndView estudiantes(@RequestParam(required=false,value = "searchN") String searchN,@RequestParam(required=false,value = "searchA") String searchA) {
+		ModelAndView mav = new ModelAndView();
+		if(searchA.isEmpty() || searchA == null) searchA = "" ;
+		if(searchN.isEmpty() || searchN == null) searchN = "" ;
+
+		List<Expediente> expedientes = expedienteService.findExpedienteByNombreOrApellido(searchN,searchA);
+		System.out.println("Hola Mundo");
+		mav.addObject("expedientes",expedientes);
+		mav.setViewName("expedientesS");
+		return mav;
+	}
+
 	@RequestMapping("/centrosEscolares")
 	public ModelAndView centrosEscolares() {
 		List<CentroEscolar> centrosEscolares = centrosEscolaresService.findAll();
@@ -78,10 +97,10 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
-	//@RequestParam(value = "id_estudiante") int id_estudiante
+	//
 	@RequestMapping("/materiasCursadas")
-	public ModelAndView materiasCursadas() {
-		List<EstudianteMateriaV> materiasCursadas = estudianteMateriaService.findById_estudiante(1);
+	public ModelAndView materiasCursadas(@RequestParam(value = "id_estudiante") int id_estudiante) {
+		List<EstudianteMateriaV> materiasCursadas = estudianteMateriaService.findById_estudiante(id_estudiante);
 		Estudiante estudiante = estudianteService.findOne(1);
 		Municipio municipio = new Municipio();
 		ModelAndView mav = new ModelAndView();
@@ -307,6 +326,7 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
+
 	//EDITAR CENTRO ESCOLAR
 	@RequestMapping(value = "/editarCentroEscolar", method = RequestMethod.POST)
 	public ModelAndView editarCentroEscolar(@RequestParam(value = "id_institucion") int id){
@@ -326,8 +346,108 @@ public class MainController implements ErrorController {
 
 	//========= END OF OPTIONS CENTRO ESCOLAR ===============
 
+	//========= ESTUDIANTES ===============
+	//@RequestParam(value = "id_estudiante") int id
+	@RequestMapping("/update_estudiante")
+	public ModelAndView update_estudiante(@RequestParam(value = "id_estudiante") int id) {
+		Estudiante estudiante = estudianteService.findOne(id);
+		List<Municipio> municipios = null;
+		List<CentroEscolar> centroEscolars = null;
+
+		municipios = municipioService.findAll();
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("estudiante", estudiante);
+		mav.addObject("municipios", municipios);
+		mav.addObject("centroEscolars", centroEscolars);
+
+		mav.setViewName("update_estudiante");
+		return mav;
+	}
+	@RequestMapping("/register_estudiante")
+	public ModelAndView register_estudiante() {
+		Estudiante estudiante = new Estudiante();
+		List<Municipio> municipios = null;
+		List<CentroEscolar> centroEscolars = null;
+
+		municipios = municipioService.findAll();
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("estudiante", estudiante);
+		mav.addObject("municipios", municipios);
+		mav.addObject("centroEscolars", centroEscolars);
+
+		mav.setViewName("register_estudiante");
+		return mav;
+	}
+	@RequestMapping("/createEstudiante")
+	public ModelAndView createEstudiante(@Valid @ModelAttribute Estudiante estudiante, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		List<Municipio> municipios = null;
+		municipios = municipioService.findAll();
+		LocalDate localDate =LocalDate.now();
+		if (!result.hasErrors()) {
+			try {
+				System.out.println("edad");
+				estudiante.setEdad(calculateAge(estudiante.getF_nacimiento(),localDate));
+				System.out.println("edad");
+				estudianteService.insert(estudiante);
+				mav.addObject("success_msg", "¡Estudiante creado con éxito!.");
+
+				mav.addObject("municipios", municipios);
+				mav.setViewName("register_estudiante");
+				return mav;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		mav.addObject("municipios", municipios);
+
+		mav.setViewName("register_estudiante");
+		return mav;
+	}
+
+	@RequestMapping("/updatedEstudiante")
+	public ModelAndView updatedEstudiante(@Valid @ModelAttribute Estudiante estudiante, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		List<Municipio> municipios = null;
+		municipios = municipioService.findAll();
+		LocalDate localDate =LocalDate.now();
+		if (!result.hasErrors()) {
+			try {
+				System.out.println("edad");
+				estudiante.setEdad(calculateAge(estudiante.getF_nacimiento(),localDate));
+				System.out.println("edad");
+				estudianteService.insert(estudiante);
+				mav.addObject("success_msg", "¡Estudiante actualizado con éxito!.");
+
+				mav.addObject("municipios", municipios);
+				mav.setViewName("update_estudiante");
+				return mav;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		mav.addObject("municipios", municipios);
+
+		mav.setViewName("update_estudiante");
+		return mav;
+	}
+
 	@Override
 	public String getErrorPath() {
 		return "/error";
+	}
+
+	public static int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+		if ((birthDate != null) && (currentDate != null)) {
+			return Period.between(birthDate, currentDate).getYears();
+		} else {
+			return 0;
+		}
 	}
 }

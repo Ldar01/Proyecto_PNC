@@ -23,21 +23,26 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
+@Table(schema="public",name="expedientes")
 public class Expediente {
 	
 	@Id
+	@Column(name="id_estudiante")
 	public Integer id_estudiante;
-	
-	
 
+	@Column(name="nombre")
 	public String nombre;
-	
+
+	@Column(name="apellido")
 	public String apellido;
-	
+
+	@Column(name="materias_ap")
 	public int materias_ap;
-	
+
+	@Column(name="materias_rep")
 	public int materias_rep;
-	
+
+	@Column(name="promedio")
 	public Float promedio;
 	
 	public Expediente() {

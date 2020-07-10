@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 public interface ExpedienteService {
 	
-	public List<Expediente> findByPrimer_nombreOrPrimer_apellido(String primer_nombre,String primer_apellido) throws DataAccessException;
+	public List<Expediente> findExpedienteByNombreOrApellido(String nombre,String apellido) throws DataAccessException;
 	
 	public Expediente findOne(Integer id_estudiante) throws DataAccessException;
 	

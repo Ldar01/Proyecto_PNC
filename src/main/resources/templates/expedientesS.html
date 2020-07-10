@@ -142,7 +142,7 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Materias Cursadas de <label th:text="${estudiante.primer_nombre + ' ' + estudiante.primer_apellido}"></label></h1>
+                <h1 class="h3 mb-2 text-gray-800">Expedientes Encontrados </h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
@@ -152,34 +152,43 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Materia</th>
-                                    <th>Año</th>
-                                    <th>Ciclo</th>
-                                    <th>Nota</th>
-                                    <th>Resultado</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Materias Aprobadas</th>
+                                    <th>Materias Reprobadas</th>
+                                    <th>Promedio</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Materia</th>
-                                    <th>Año</th>
-                                    <th>Ciclo</th>
-                                    <th>Nota</th>
-                                    <th>Resultado</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Materias Aprobadas</th>
+                                    <th>Materias Reprobadas</th>
+                                    <th>Promedio</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
-                                <th:block th:each="m, row:${materiasCursadas}">
+                                <th:block th:each="e, row:${expedientes}">
                                     <tr class="table-primary">
-                                        <th th:text="${m.id_materia_cursada}"/>
-                                        <th th:text="${m.materia}"/>
-                                        <th th:text="${m.anio}"/>
-                                        <th th:text="${m.ciclo}" />
-                                        <th th:text="${m.nota}" />
-                                        <th th:text="${m.resultado}" />
-                                        <th><a class="btn btn-primary" href="#">Editar</a></th>
+                                        <th th:text="${e.id_estudiante}"/>
+                                        <th th:text="${e.nombre}"/>
+                                        <th th:text="${e.apellido}"/>
+                                        <th th:text="${e.materias_ap}" />
+                                        <th th:text="${e.materias_rep}" />
+                                        <th th:text="${e.promedio}" />
+                                        <th><form th:action="@{/update_estudiante}" method="post">
+                                            <input type="hidden" name="id_estudiante" th:value="${e.id_estudiante}">
+                                            <input class="btn btn-primary" type="submit" value="Editar Expediente">
+                                        </form></th>
+                                        <th><form th:action="@{/materiasCursadas}" method="post">
+                                            <input type="hidden" name="id_estudiante" th:value="${e.id_estudiante}">
+                                            <input class="btn btn-primary" type="submit" value="Editar Materias">
+                                        </form></th>
                                     </tr>
                                 </th:block>
                                 </tbody>

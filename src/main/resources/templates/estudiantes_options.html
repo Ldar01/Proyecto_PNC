@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -21,49 +21,61 @@
 </head>
 <body id="page-top">
 
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home_admin">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">ADMIN</sup></div>
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
+      <div class="sidebar-brand-text mx-3">COORDINADOR</div>
+    </a>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+      <a class="nav-link" href="/home_coord">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Coordinación</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      cambiar segun convega
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>cambiar</span>
       </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-		
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Coordinación
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <a class="collapse-item" href="cards.html">1</a>
+          <a class="collapse-item" href="buttons.html">2</a>
+          <a class="collapse-item" href="cards.html">3</a>
+          <a class="collapse-item" href="cards.html">4</a>
+        </div>
       </div>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-       <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="/expedientes">
-          <i class="fas fa-fw fa-graduation-cap"></i>
-          <span>Estudiantes</span></a>
-      </li>
-      <!-- Divider -->
-      <hr class="sidebar-divider">
+    </li>
 
 
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
 
-    </ul>
-    <!-- End of Sidebar -->
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
+  </ul>
+  <!-- End of Sidebar -->
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -78,17 +90,6 @@
             <i class="fa fa-bars"></i>
           </button>
 
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="desactivado en la página de inicio..." disabled aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" disabled type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -111,13 +112,6 @@
                   </div>
                 </form>
               </div>
-            </li>
-            
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text=${userRol}></span>
-              </a>         
             </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -143,15 +137,31 @@
         </nav>
         <!-- End of Topbar -->
 
+
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Bienvenido</h1>
+            <h1 class="h3 mb-0 text-gray-800">Expedientes</h1>
           </div>
-
-
+          <form class="user" th:action="@{/estudiantes}"  method="post">
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text"  class="form-control form-control-user" name="searchN" placeholder="Nombre del Estudiante">
+              </div>
+            </div>
+            <label>O</label>
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text"  class="form-control form-control-user" name="searchA" placeholder="Apellido del Estudiante">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-user " type="submit">Buscar Estudiante</button>
+          </form>
+          <div class="text-center">
+            <a class="btn btn-primary btn-user " href="/register_estudiante">Agregar Nuevo Expediente</a>
+          </div>
           <!-- Content Row -->
           <div class="row">
 
@@ -160,37 +170,7 @@
             <div class="col-lg-6 mb-4">
 
               <!-- Illustrations -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Proyecto "Programación N-Capas"</h6>
-                </div>
-                <div class="card-body">
-                  <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
-                  </div>
-                  <p>Una institución educativa privada ha implementado un proyecto de estudiantes becados, con el objetivo de
-                    permitir a estudiantes que vienen de familias de escasos recursos estudiar en dicha institución. La junta
-                    directiva, ha pedido al Departamento de Informática de la Institución, que desarrolle un sistema computacional
-                    para la administración de dichos estudiantes</p>
-                  <a target="_blank" rel="nofollow" href="https://github.com/Ldar01/Proyecto_PNC">Link Github &rarr;</a>
-                </div>
-              </div>
 
-              
-
-            </div>
-            <div class="col-lg-6 mb-4">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Integrantes</h6>
-                </div>
-                <div class="card-body">
-                  <p>Fabricio Hernandez - 00163217</p>
-                  <p>José Mejía - 00163217</p>
-                  <p>Luisa Rodas - 00163217</p>
-                </div>
-              </div>
-            </div>
   
             </div>
             <!-- Approach -->
