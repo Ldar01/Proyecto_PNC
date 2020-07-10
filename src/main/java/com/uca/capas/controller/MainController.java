@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.uca.capas.domain.*;
-import com.uca.capas.service.CentrosEscolaresService;
+import com.uca.capas.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uca.capas.service.DepartamentoService;
-import com.uca.capas.service.MunicipioService;
-import com.uca.capas.service.UsuarioService;
 import com.uca.capas.util.PasswordGenerator;
 
 @Controller
@@ -43,6 +40,9 @@ public class MainController implements ErrorController {
 
 	@Autowired
 	private CentrosEscolaresService centrosEscolaresService;
+
+	@Autowired
+	private MateriaService materiaService;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -61,17 +61,6 @@ public class MainController implements ErrorController {
 			mav.addObject("userRol", usuario.getRol_delegate());
 		}
 		mav.setViewName("index");
-		return mav;
-	}
-
-	@RequestMapping("/centrosEscolares")
-	public ModelAndView centrosEscolares() {
-		List<CentroEscolar> centrosEscolares = centrosEscolaresService.findAll();
-
-		Municipio municipio = new Municipio();
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("centrosEscolares", centrosEscolares);
-		mav.setViewName("centrosEscolares");
 		return mav;
 	}
 
@@ -234,6 +223,17 @@ public class MainController implements ErrorController {
 
 	//============ OPTIONS CENTRO ESCOLAR ==============
 
+	@RequestMapping("/centrosEscolares")
+	public ModelAndView centrosEscolares() {
+		List<CentroEscolar> centrosEscolares = centrosEscolaresService.findAll();
+
+		Municipio municipio = new Municipio();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("centrosEscolares", centrosEscolares);
+		mav.setViewName("centrosEscolares");
+		return mav;
+	}
+
 	@RequestMapping("/register_ce")
 	public ModelAndView register_ce() {
 		CentroEscolar centroEscolar = new CentroEscolar();
@@ -294,6 +294,62 @@ public class MainController implements ErrorController {
 	}
 
 	//========= END OF OPTIONS CENTRO ESCOLAR ===============
+
+	//============ OPTIONS MATERIAS ========================
+	@RequestMapping("/materias")
+	public ModelAndView materias() {
+		List<Materia> materias = materiaService.findAll();
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("materias", materias);
+		mav.setViewName("materias");
+		return mav;
+	}
+
+	@RequestMapping("/register_m")
+	public ModelAndView register_m() {
+		Materia materia = new Materia();
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("materia", materia);
+
+		mav.setViewName("register_m");
+		return mav;
+	}
+
+	@RequestMapping("/createM")
+	public ModelAndView createM(@Valid @ModelAttribute Materia materia, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		if (!result.hasErrors()) {
+			try {
+				materiaService.insert(materia);
+				mav.addObject("success_msg", "¡Materia creada con éxito!.");
+				mav.setViewName("register_m");
+				return mav;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		mav.setViewName("register_m");
+		return mav;
+	}
+
+	//EDITAR MATERIA
+	@RequestMapping(value = "/editarMateria", method = RequestMethod.POST)
+	public ModelAndView editarMateria(@RequestParam(value = "id_materia") int id){
+		ModelAndView mav = new ModelAndView();
+		Materia materia = materiaService.findOne(id);
+
+		mav.addObject("materia", materia);
+		mav.setViewName("register_m");
+
+		return mav;
+	}
+
+	//========= END OF OPTIONS MATERIAS =====================
 
 	@Override
 	public String getErrorPath() {
