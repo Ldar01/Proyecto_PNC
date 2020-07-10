@@ -45,29 +45,6 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
-            cambiar segun convega
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>cambiar</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="cards.html">1</a>
-                    <a class="collapse-item" href="buttons.html">2</a>
-                    <a class="collapse-item" href="cards.html">3</a>
-                    <a class="collapse-item" href="cards.html">4</a>
-                </div>
-            </div>
-        </li>
-
-
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
@@ -92,42 +69,14 @@
                 </button>
 
                 <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_activation}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a activar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/register_ce}" method="post">
                             <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-close fa-sm">Activar</i>
+                                <i class="fas fa-close fa-sm">Nuevo Centro Escolar +</i>
                             </button>
-                        </div>
-                    </div>
                 </form>
 
                 <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_desactivation}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a desactivar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-warning" type="submit">
-                                <i class="fas fa-close fa-sm">Desactivar</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_delete}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a eliminar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-close fa-sm">Eliminar</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Topbar Navbar -->
+                    <!-- Nav Item - User Information -->
                 <ul class="navbar-nav ml-auto">
 
                     <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -212,7 +161,10 @@
                                         <th th:text="${centroEscolar.nombre_institucion}"/>
                                         <th th:text="${centroEscolar.municipio.nombre_municipio}"/>
                                         <th th:text="${centroEscolar.estado_delegate}" />
-                                        <th><a class="btn btn-primary" href="#">Editar</a></th>
+                                        <th><form th:action="@{/editarCentroEscolar}" method="post">
+                                            <input type="hidden" name="id_institucion" th:value="${centroEscolar.id_institucion}">
+                                            <input class="btn btn-primary" type="submit" value="Editar">
+                                        </form></th>
                                     </tr>
                                 </th:block>
                                 </tbody>

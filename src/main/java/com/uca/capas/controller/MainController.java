@@ -231,6 +231,69 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
+	//============ OPTIONS CENTRO ESCOLAR ==============
+
+	@RequestMapping("/register_ce")
+	public ModelAndView register_ce() {
+		CentroEscolar centroEscolar = new CentroEscolar();
+		List<Municipio> municipios = null;
+
+		municipios = municipioService.findAll();
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("centroEscolar", centroEscolar);
+		mav.addObject("municipio", centroEscolar.getMunicipio());
+		mav.addObject("municipios", municipios);
+
+		mav.setViewName("register_ce");
+		return mav;
+	}
+
+	@RequestMapping("/createCE")
+	public ModelAndView createCE(@Valid @ModelAttribute CentroEscolar centroEscolar, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		List<Municipio> municipios = null;
+		if (!result.hasErrors()) {
+			try {
+				centrosEscolaresService.insert(centroEscolar);
+				mav.addObject("success_msg", "¡Centro Escolar creado con éxito!.");
+				municipios = municipioService.findAll();
+				mav.addObject("municipios", municipios);
+				mav.setViewName("register_ce");
+				return mav;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		municipios = municipioService.findAll();
+		mav.addObject("municipios", municipios);
+
+		mav.setViewName("register_ce");
+		return mav;
+	}
+
+	//EDITAR CENTRO ESCOLAR
+	@RequestMapping(value = "/editarCentroEscolar", method = RequestMethod.POST)
+	public ModelAndView editarCentroEscolar(@RequestParam(value = "id_institucion") int id){
+		ModelAndView mav = new ModelAndView();
+		CentroEscolar centroEscolar = centrosEscolaresService.findOne(id);
+		List<Municipio> municipios = null;
+
+		municipios = municipioService.findAll();
+
+		mav.addObject("centroEscolar", centroEscolar);
+		mav.addObject("municipio", centroEscolar.getMunicipio());
+		mav.addObject("municipios", municipios);
+		mav.setViewName("register_ce");
+
+		return mav;
+	}
+
+	//========= END OF OPTIONS CENTRO ESCOLAR ===============
+
 	@Override
 	public String getErrorPath() {
 		return "/error";
