@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.uca.capas.domain.*;
+import com.uca.capas.service.CentrosEscolaresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.web.WebAttributes;
@@ -20,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uca.capas.domain.Departamento;
-import com.uca.capas.domain.Municipio;
-import com.uca.capas.domain.Usuario;
 import com.uca.capas.service.DepartamentoService;
 import com.uca.capas.service.MunicipioService;
 import com.uca.capas.service.UsuarioService;
@@ -33,10 +32,15 @@ public class MainController implements ErrorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
 	@Autowired
 	private DepartamentoService departamentoService;
+
 	@Autowired
 	private MunicipioService municipioService;
+
+	@Autowired
+	private CentrosEscolaresService centrosEscolaresService;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -49,6 +53,17 @@ public class MainController implements ErrorController {
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index");
+		return mav;
+	}
+
+	@RequestMapping("/centrosEscolares")
+	public ModelAndView centrosEscolares() {
+		List<CentroEscolar> centrosEscolares = centrosEscolaresService.findAll();
+
+		Municipio municipio = new Municipio();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("centrosEscolares",centrosEscolares);
+		mav.setViewName("centrosEscolares");
 		return mav;
 	}
 
