@@ -58,7 +58,13 @@ public class MainController implements ErrorController {
 		if (principal instanceof UserDetails) {
 			String username = ((UserDetails) principal).getUsername();
 			Usuario usuario = usuarioService.findOneByUsuario(username);
+			
 			mav.addObject("userRol", usuario.getRol_delegate());
+			
+			if(usuario.getRol_delegate().equals("ADMINISTRADOR")) {
+				mav.setViewName("index_admin");
+				return mav;
+			}
 		}
 		mav.setViewName("index");
 		return mav;
@@ -75,21 +81,6 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
-	@RequestMapping("/home_admin")
-	public ModelAndView home_admin() {
-		ModelAndView mav = new ModelAndView();
-
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
-			String username = ((UserDetails) principal).getUsername();
-			Usuario usuario = usuarioService.findOneByUsuario(username);
-			mav.addObject("userRol", usuario.getRol_delegate());
-		}
-
-		mav.setViewName("index_admin");
-		return mav;
-	}
-
 	@RequestMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
@@ -98,6 +89,14 @@ public class MainController implements ErrorController {
 			String username = ((UserDetails) principal).getUsername();
 			Usuario usuario = usuarioService.findOneByUsuario(username);
 			mav.addObject("userRol", usuario.getRol_delegate());
+			
+			if(usuario.getRol_delegate().equals("ADMINISTRADOR")) {
+				mav.setViewName("index_admin");
+				return mav;
+			}else {
+				mav.setViewName("index");
+				return mav;
+			}
 		}
 		mav.setViewName("404");
 		return mav;
