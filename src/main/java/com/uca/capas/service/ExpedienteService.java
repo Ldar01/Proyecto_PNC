@@ -6,6 +6,8 @@ import org.springframework.dao.DataAccessException;
 
 import com.uca.capas.domain.Estudiante;
 import com.uca.capas.domain.Expediente;
+import org.springframework.stereotype.Service;
+
 
 public interface ExpedienteService {
 	

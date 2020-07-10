@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
+@Table(schema="public",name="materias_cursadas")
 public class EstudianteMateriaV {
 	
 	@Id
@@ -31,8 +32,8 @@ public class EstudianteMateriaV {
 	
 	@Column(name="anio")
 	private int anio;
-	
-	@Column(name="materia")
+
+	@Column(name="nombre_materia")
 	private String materia;
 	
 	@Column(name="ciclo")

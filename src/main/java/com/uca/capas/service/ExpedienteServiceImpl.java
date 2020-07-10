@@ -8,7 +8,9 @@ import org.springframework.dao.DataAccessException;
 
 
 import com.uca.capas.repositories.ExpedienteRepo;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ExpedienteServiceImpl implements ExpedienteService {
 	
 	ExpedienteRepo expedienteRepo;

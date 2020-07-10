@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import com.uca.capas.domain.Estudiante;
 import com.uca.capas.domain.EstudianteMateria;
 import com.uca.capas.domain.EstudianteMateriaV;
+import org.springframework.stereotype.Service;
+
 
 public interface EstudianteMateriaService {
 	

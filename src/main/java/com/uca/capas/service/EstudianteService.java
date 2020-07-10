@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.uca.capas.domain.Estudiante;
+import org.springframework.stereotype.Service;
+
 
 public interface EstudianteService {
 	

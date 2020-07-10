@@ -10,32 +10,33 @@ import com.uca.capas.domain.EstudianteMateria;
 import com.uca.capas.domain.EstudianteMateriaV;
 import com.uca.capas.repositories.EstudianteMateriaRepo;
 import com.uca.capas.repositories.EstudianteRepo;
+import org.springframework.stereotype.Service;
 
-
-public class EstudianteServiceImpl implements EstudianteMateriaService {
+@Service
+public class EstudianteServiceImpl implements EstudianteService {
 	@Autowired
-	private EstudianteMateriaRepo estudianteMateriaRepo;
+	private EstudianteRepo estudianteRepo;
+
 
 	@Override
-	public List<EstudianteMateriaV> findById_estudiante(int id_estudiante) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return estudianteMateriaRepo.findById_estudiante(id_estudiante);
+	public List<Estudiante> findAll() throws DataAccessException {
+		return estudianteRepo.findAll();
 	}
 
 	@Override
-	public void insert(EstudianteMateria estudianteMateria) throws DataAccessException {
-		// TODO Auto-generated method stub
-		estudianteMateriaRepo.save(estudianteMateria);
-		
+	public Estudiante findOne(Integer id_estudiante) throws DataAccessException {
+		return estudianteRepo.getOne(id_estudiante);
 	}
 
 	@Override
-	public void delete(Integer id_materia_cursada) throws DataAccessException {
-		// TODO Auto-generated method stub
-		estudianteMateriaRepo.deleteById(id_materia_cursada);
-		
+	public void insert(Estudiante estudiante) throws DataAccessException {
+		estudianteRepo.save(estudiante);
 	}
 
-	
-	
+	@Override
+	public void delete(Integer id_estudiante) throws DataAccessException {
+
+	}
+
+
 }

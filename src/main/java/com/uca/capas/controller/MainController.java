@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.uca.capas.domain.*;
-import com.uca.capas.service.CentrosEscolaresService;
+import com.uca.capas.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.web.WebAttributes;
@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.uca.capas.service.DepartamentoService;
-import com.uca.capas.service.MunicipioService;
-import com.uca.capas.service.UsuarioService;
 import com.uca.capas.util.PasswordGenerator;
 
 @Controller
@@ -41,6 +38,12 @@ public class MainController implements ErrorController {
 
 	@Autowired
 	private CentrosEscolaresService centrosEscolaresService;
+
+	@Autowired
+	private EstudianteMateriaService estudianteMateriaService;
+
+	@Autowired
+	private EstudianteService estudianteService;
 
 	@RequestMapping({ "/", "/login" })
 	public ModelAndView initMain() {
@@ -64,6 +67,19 @@ public class MainController implements ErrorController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("centrosEscolares",centrosEscolares);
 		mav.setViewName("centrosEscolares");
+		return mav;
+	}
+
+	//@RequestParam(value = "id_estudiante") int id_estudiante
+	@RequestMapping("/materiasCursadas")
+	public ModelAndView materiasCursadas() {
+		List<EstudianteMateriaV> materiasCursadas = estudianteMateriaService.findById_estudiante(1);
+		Estudiante estudiante = estudianteService.findOne(1);
+		Municipio municipio = new Municipio();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("estudiante",estudiante);
+		mav.addObject("materiasCursadas",materiasCursadas);
+		mav.setViewName("materiasCursadas");
 		return mav;
 	}
 
