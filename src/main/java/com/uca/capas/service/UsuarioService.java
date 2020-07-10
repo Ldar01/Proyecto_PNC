@@ -11,6 +11,8 @@ public interface UsuarioService {
 	public List<Usuario> findAll() throws DataAccessException;
 
 	public Usuario findOne(Integer id_usuario) throws DataAccessException;
+	
+	public Usuario findOneByUsuario(String username) throws DataAccessException;
 
 	public void insert(Usuario usuario) throws DataAccessException;
 
