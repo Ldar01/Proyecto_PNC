@@ -44,5 +44,4 @@ public class CentrosEscolaresServiceImpl implements CentrosEscolaresService{
 		// TODO Auto-generated method stub
 		centrosEscolaresRepo.updateEstado(id_institucion, estado);
 	}
-
 }

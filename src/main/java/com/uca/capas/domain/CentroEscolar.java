@@ -1,11 +1,6 @@
 package com.uca.capas.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -22,9 +17,10 @@ public class CentroEscolar {
 	@Size(message = "El nombre de la institucion no debe tener más de 100 caracteres", max = 100)
 	@Column(name = "nombre_institucion")
 	private String nombre_institucion;
-	
-	@Column(name = "municipio")
-	private Integer municipio;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "municipio")
+	private Municipio municipio;
 	
 	@Column(name = "estado")
 	private Boolean estado;
@@ -47,11 +43,11 @@ public class CentroEscolar {
 		this.nombre_institucion = nombre_institucion;
 	}
 	
-	public Integer getMunicipio() {
+	public Municipio getMunicipio() {
 		return municipio;
 	}
 	
-	public void setMunicipio(Integer municipio) {
+	public void setMunicipio(Municipio municipio) {
 		this.municipio = municipio;
 	}
 	
