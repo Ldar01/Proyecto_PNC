@@ -92,66 +92,13 @@
                 </button>
 
                 <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_activation}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a activar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/register_ce}" method="post">
                             <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-close fa-sm">Activar</i>
+                                <i class="fas fa-close fa-sm">Nuevo Centro Escolar +</i>
                             </button>
-                        </div>
-                    </div>
                 </form>
 
                 <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_desactivation}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a desactivar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-warning" type="submit">
-                                <i class="fas fa-close fa-sm">Desactivar</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"  th:action="@{/perfom_delete}" method="post">
-                    <div class="input-group">
-                        <input type="number" class="form-control bg-light border-0 small" name="id_usuario" required placeholder="Ingrese ID del usuario a eliminar" aria-label="Activar" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-close fa-sm">Eliminar</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- Topbar Navbar -->
-                <ul class="navbar-nav ml-auto">
-
-                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                    <li class="nav-item dropdown no-arrow d-sm-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-search fa-fw"></i>
-                        </a>
-                        <!-- Dropdown - Messages -->
-                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                            <form class="form-inline mr-auto w-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </li>
-
-                    <div class="topbar-divider d-none d-sm-block"></div>
-
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
