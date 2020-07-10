@@ -185,7 +185,7 @@ public class Usuario {
 	}
 	
 	public String getRol_delegate() {
-		return this.tipo_usuario == 1 ? "ADMIN" : "COORDINADOR";
+		return this.tipo_usuario == 1 ? "ADMINISTRADOR" : "COORDINADOR";
 	}
 
 
