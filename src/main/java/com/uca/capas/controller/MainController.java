@@ -106,6 +106,21 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
+	@RequestMapping("/home_coord")
+	public ModelAndView home_coord() {
+		ModelAndView mav = new ModelAndView();
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails) principal).getUsername();
+			Usuario usuario = usuarioService.findOneByUsuario(username);
+			mav.addObject("userRol", usuario.getRol_delegate());
+		}
+
+		mav.setViewName("index_coord");
+		return mav;
+	}
+
 	@RequestMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
