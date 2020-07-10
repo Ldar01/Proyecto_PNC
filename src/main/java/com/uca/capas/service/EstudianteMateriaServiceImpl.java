@@ -28,6 +28,11 @@ public class EstudianteMateriaServiceImpl implements EstudianteMateriaService {
 	}
 
 	@Override
+	public EstudianteMateria findOne(int id_materia_cursada) throws DataAccessException {
+		return estudianteMateriaRepo.getOne(id_materia_cursada);
+	}
+
+	@Override
 	public void insert(EstudianteMateria estudianteMateria) throws DataAccessException {
 		// TODO Auto-generated method stub
 		estudianteMateriaRepo.save(estudianteMateria);

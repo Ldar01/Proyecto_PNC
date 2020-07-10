@@ -470,6 +470,19 @@ public class MainController implements ErrorController {
 		mav.setViewName("register_m");
 		return mav;
 	}
+	//id_materia_cursada
+
+	@RequestMapping("/materia_cursada_up")
+	public ModelAndView materia_cursada_up(@RequestParam(value = "id_materia_cursada") int id) {
+		ModelAndView mav = new ModelAndView();
+		EstudianteMateria estudianteMateria = estudianteMateriaService.findOne(id);
+		mav.addObject("materia_cursada",estudianteMateria);
+		System.out.println(estudianteMateria.getId_estudiante());
+		List<Materia> materias = materiaService.findAll() ;
+		mav.addObject("materias",materias);
+		mav.setViewName("materias_update");
+		return mav;
+	}
 
 	@RequestMapping("/updatedEstudiante")
 	public ModelAndView updatedEstudiante(@Valid @ModelAttribute Estudiante estudiante, BindingResult result) {
@@ -498,7 +511,31 @@ public class MainController implements ErrorController {
 		mav.setViewName("update_estudiante");
 		return mav;
 	}
+	@RequestMapping("/update_materia_c")
+	public ModelAndView update_materia_c(@Valid @ModelAttribute EstudianteMateria materia_cursada, BindingResult result) {
+		ModelAndView mav = new ModelAndView();
+		List<CentroEscolar> centroEscolars = centrosEscolaresService.findAll() ;
 
+		if (!result.hasErrors()) {
+			try {
+
+				estudianteMateriaService.insert(materia_cursada);
+				mav.addObject("success_msg", "¡Estudiante actualizado con éxito!.");
+
+				mav.addObject("centroEscolars",centroEscolars);
+				mav.setViewName("estudiantes_options");
+				return mav;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		mav.addObject("centroEscolars",centroEscolars);
+
+		mav.setViewName("materias_update");
+		return mav;
+	}
+//update_materia_c
 	//EDITAR MATERIA
 	@RequestMapping(value = "/editarMateria", method = RequestMethod.POST)
 	public ModelAndView editarMateria(@RequestParam(value = "id_materia") int id){

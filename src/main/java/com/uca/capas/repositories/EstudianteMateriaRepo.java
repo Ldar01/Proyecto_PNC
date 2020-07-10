@@ -12,8 +12,6 @@ import com.uca.capas.domain.EstudianteMateriaV;
 import com.uca.capas.domain.Usuario;
 
 public interface EstudianteMateriaRepo extends JpaRepository<EstudianteMateria, Integer> {
-	
 
-	
 	
 }

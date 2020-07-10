@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -32,39 +32,58 @@
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900">¡Crea un nuevo Centro Escolar!</h1>
+                            <h1 class="h4 text-gray-900">¡Actualizar Materia!</h1>
                             <p th:text="${success_msg}" style="color: green;"></p>
                         </div>
-                        <form class="user" th:action="@{/createCE}" th:object="${centroEscolar}" method="post">
-                            <input type="hidden" th:field="*{id_institucion}">
+                        <form class="user" th:action="@{/update_materia_c}" th:object="${materia_cursada}" method="post">
+                            <input type="hidden" th:field="*{id_materia_cursada}">
                             <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" th:field="*{nombre_institucion}" class="form-control form-control-user" id="nombre_institucion" placeholder="Nombre de la institucion">
-                                    <span th:errors = "*{nombre_institucion}" style="color: #E81505"></span>
+                                <div class="col-sm-6">
+                            <input type="number" th:field="*{id_estudiante}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <select class="custom-select" th:field="*{municipio.id_municipio}" id="municipio" style="border-radius: 10rem; height: 50px; font-size: 0.8rem;">
-                                        <option th:each="option : ${municipios}" th:value= ${#numbers.formatInteger(option.id_municipio,3)}  th:text="${option.nombre_municipio}">
+                                    <select class="custom-select" th:field="*{ciclo}" id="ciclo" style="border-radius: 10rem; height: 50px; font-size: 0.8rem;">
+                                        <option value="01">
+                                            01
+                                        </option>
+                                        <option value="02">
+                                            02
+                                        </option>
+                                        <option value="03">
+                                            03
                                         </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label >Activo: </label><input type="radio"  th:field="*{estado}" th:value = "${true}" class="custom-control custom-radio">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label >Inactivo: </label><input type="radio"  th:field="*{estado}" th:value = "${false}" class="custom-control custom-radio">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="number" th:field="*{anio}" class="form-control form-control-user" id="anio" placeholder="Año">
+                                    <span th:errors = "*{anio}" style="color: #E81505"></span>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-user btn-block" type="submit">Registrar</button>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <select class="custom-select" th:field="*{id_materia}" id="id_materia" style="border-radius: 10rem; height: 50px; font-size: 0.8rem;">
+                                        <option th:each="option : ${materias}" th:value= ${#numbers.formatInteger(option.id_materia,3)}  th:text="${option.nombre_materia}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="number" th:field="*{nota}" class="form-control form-control-user" id="nota" placeholder="nota">
+                                    <span th:errors = "*{nota}" style="color: #E81505"></span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-user btn-block" type="submit">Actualizar</button>
 
                         </form>
                         <hr>
                         <div class="text-center">
-                            <a class="small" href="/centrosEscolares">¡Regresar al menu de Centros Escolares!</a>
+                            <a class="small" href="/materiasCursadas">¡Regresar a Materias Cursadas!</a>
                         </div>
                     </div>
                 </div>

@@ -179,7 +179,10 @@
                                         <th th:text="${m.ciclo}" />
                                         <th th:text="${m.nota}" />
                                         <th th:text="${m.resultado}" />
-                                        <th><a class="btn btn-primary" href="#">Editar</a></th>
+                                        <th><form th:action="@{/materia_cursada_up}" method="post">
+                                            <input type="hidden" name="id_materia_cursada" th:value="${m.id_materia_cursada}">
+                                            <input class="btn btn-primary" type="submit" value="Editar Materia">
+                                        </form></th>
                                     </tr>
                                 </th:block>
                                 </tbody>

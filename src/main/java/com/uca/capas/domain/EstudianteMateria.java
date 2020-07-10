@@ -37,11 +37,9 @@ public class EstudianteMateria {
 	private int anio;
 	
 	@Column(name="id_materia")
-	@Size(min=1,max=30)
 	private int id_materia;
 	
 	@Column(name="id_estudiante")
-	@Size(min=1,max=30)
 	private int id_estudiante;
 	
 	@Column(name="ciclo")
