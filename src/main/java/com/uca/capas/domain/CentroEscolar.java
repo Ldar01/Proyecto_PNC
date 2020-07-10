@@ -2,6 +2,7 @@ package com.uca.capas.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -21,7 +22,8 @@ public class CentroEscolar {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "municipio")
 	private Municipio municipio;
-	
+
+	@NotNull(message = "Debe Seleccionar una opcion")
 	@Column(name = "estado")
 	private Boolean estado;
 	

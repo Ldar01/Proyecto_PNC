@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -58,6 +58,7 @@
                                 <div class="col-sm-6">
                                     <label >Inactivo: </label><input type="radio"  th:field="*{estado}" th:value = "${false}" class="custom-control custom-radio">
                                 </div>
+                                <span th:errors = "*{estado}" style="color: #E81505"></span>
                             </div>
                             <button class="btn btn-primary btn-user btn-block" type="submit">Registrar</button>
 

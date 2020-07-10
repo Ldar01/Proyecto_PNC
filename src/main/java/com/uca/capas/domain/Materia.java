@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,7 +23,8 @@ public class Materia {
 	@Size(message = "El nombre de la materia no debe tener más de 20 caracteres", max = 20)
 	@Column(name = "nombre_materia")
 	private String nombre_materia;
-	
+
+	@NotNull(message = "Debe Seleccionar una opcion")
 	@Column(name = "estado")
 	private Boolean estado;
 	
