@@ -84,6 +84,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 			}
 
 			UserDetails userDet = new User(usuario.getUsuario(), usuario.getPassword(), roles);
+		
 
 			return userDet;
 		} else {
@@ -106,6 +107,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	        return principal instanceof UserDetails ? (UserDetails) principal : null;
 	    }
 	    return null;
+	}
+
+	@Override
+	public Usuario findOneByUsuario(String username) throws DataAccessException {
+		return usuarioRepo.findByUsuario(username);
 	}
 
 }

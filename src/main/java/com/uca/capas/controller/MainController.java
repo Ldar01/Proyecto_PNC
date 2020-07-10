@@ -11,6 +11,8 @@ import com.uca.capas.domain.*;
 import com.uca.capas.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,10 +53,16 @@ public class MainController implements ErrorController {
 		mav.setViewName("login");
 		return mav;
 	}
-	
+
 	@RequestMapping("/home")
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails) principal).getUsername();
+			Usuario usuario = usuarioService.findOneByUsuario(username);
+			mav.addObject("userRol", usuario.getRol_delegate());
+		}
 		mav.setViewName("index");
 		return mav;
 	}
@@ -65,7 +73,7 @@ public class MainController implements ErrorController {
 
 		Municipio municipio = new Municipio();
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("centrosEscolares",centrosEscolares);
+		mav.addObject("centrosEscolares", centrosEscolares);
 		mav.setViewName("centrosEscolares");
 		return mav;
 	}
@@ -86,6 +94,14 @@ public class MainController implements ErrorController {
 	@RequestMapping("/home_admin")
 	public ModelAndView home_admin() {
 		ModelAndView mav = new ModelAndView();
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails) principal).getUsername();
+			Usuario usuario = usuarioService.findOneByUsuario(username);
+			mav.addObject("userRol", usuario.getRol_delegate());
+		}
+
 		mav.setViewName("index_admin");
 		return mav;
 	}
@@ -93,6 +109,12 @@ public class MainController implements ErrorController {
 	@RequestMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails) principal).getUsername();
+			Usuario usuario = usuarioService.findOneByUsuario(username);
+			mav.addObject("userRol", usuario.getRol_delegate());
+		}
 		mav.setViewName("404");
 		return mav;
 	}
@@ -166,7 +188,7 @@ public class MainController implements ErrorController {
 		mav.setViewName("activate");
 		return mav;
 	}
-	
+
 	@RequestMapping("/register")
 	public ModelAndView register() {
 		Usuario usuario = new Usuario();
@@ -193,6 +215,16 @@ public class MainController implements ErrorController {
 		List<Municipio> municipios = null;
 		if (!result.hasErrors()) {
 			try {
+				Usuario existusuario = usuarioService.findOneByUsuario(usuario.getUsuario());
+				if(existusuario != null) {
+					mav.addObject("error_msg", "El usuario que intenta ingresar ya está en uso.");
+					departamentos = departamentoService.findAll();
+					municipios = municipioService.findAll();
+					mav.addObject("departamentos", departamentos);
+					mav.addObject("municipios", municipios);
+					mav.setViewName("register");
+					return mav;
+				}
 				usuarioService.insert(usuario);
 				mav.addObject("success_msg", "¡Usuario creado con éxito!.");
 				departamentos = departamentoService.findAll();
@@ -207,7 +239,6 @@ public class MainController implements ErrorController {
 
 		}
 
-		
 		departamentos = departamentoService.findAll();
 		municipios = municipioService.findAll();
 		mav.addObject("departamentos", departamentos);

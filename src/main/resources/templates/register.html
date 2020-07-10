@@ -34,6 +34,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900">¡Crea una cuenta!</h1>
                 <p th:text="${success_msg}" style="color: green;"></p> 
+                <p th:text="${error_msg}" style="color: red;"></p> 
               </div>
               <form class="user" th:action="@{/createAccount}" th:object="${usuario}" method="post">
                 <div class="form-group row">
