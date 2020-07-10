@@ -45,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     String[] resources = new String[]{
             "/vendor/**", "/css/**", "/icons/**", "/img/**", "/js/**", "/scss/**"
     };
+<<<<<<< HEAD
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -76,4 +77,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
+=======
+	@Override
+	protected void configure(HttpSecurity http) throws Exception{
+		http
+		.authorizeRequests()
+			.antMatchers(resources).permitAll()
+			.antMatchers("/","/register","/createAccount","/active_user").permitAll()
+	        .antMatchers("/home_admin*").access("hasRole('ADMIN')")
+	        .antMatchers("/perfom_activation*").access("hasRole('ADMIN')")
+	        .antMatchers("/home*").access("hasRole('COORDINADOR')")
+            .anyRequest().authenticated()
+            .and()
+       .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .defaultSuccessUrl("/home")
+            .failureUrl("/login?error=true")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .and()
+       .logout()
+            .permitAll()
+            .logoutSuccessUrl("/login?logout")
+            .and()
+            .sessionManagement().maximumSessions(1);
+            
+           
+  
+	}
+	
+	
+>>>>>>> b0ec43f8d74e895d7fde3b94009c23afac860780
 }
