@@ -6,36 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import com.uca.capas.domain.Estudiante;
+import com.uca.capas.domain.EstudianteMateria;
+import com.uca.capas.domain.EstudianteMateriaV;
+import com.uca.capas.repositories.EstudianteMateriaRepo;
 import com.uca.capas.repositories.EstudianteRepo;
 
 
-public class EstudianteMateriaServiceImpl implements EstudianteService {
+public class EstudianteMateriaServiceImpl implements EstudianteMateriaService {
 	@Autowired
-	private EstudianteRepo estudianteRepo;
+	private EstudianteMateriaRepo estudianteMateriaRepo;
 
 	@Override
-	public List<Estudiante> findAll() throws DataAccessException {
+	public List<EstudianteMateriaV> findById_estudiante(int id_estudiante) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return estudianteRepo.findAll();
+		return estudianteMateriaRepo.findById_estudiante(id_estudiante);
+	}
+
+	@Override
+	public void insert(EstudianteMateria estudianteMateria) throws DataAccessException {
+		// TODO Auto-generated method stub
+		estudianteMateriaRepo.save(estudianteMateria);
+	}
+
+	@Override
+	public void delete(Integer id_materia_cursada) throws DataAccessException {
+		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public Estudiante findOne(Integer id_estudiante) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return estudianteRepo.getOne(id_estudiante);
-	}
 
-	@Override
-	public void insert(Estudiante estudiante) throws DataAccessException {
-		// TODO Auto-generated method stub
-		estudianteRepo.save(estudiante);
-	}
-
-	@Override
-	public void delete(Integer id_estudiante) throws DataAccessException {
-		// TODO Auto-generated method stub
-		estudianteRepo.deleteById(id_estudiante);
-	}
 	
 }
