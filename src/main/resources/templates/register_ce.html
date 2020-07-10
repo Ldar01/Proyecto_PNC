@@ -36,26 +36,27 @@
                             <p th:text="${success_msg}" style="color: green;"></p>
                         </div>
                         <form class="user" th:action="@{/createCE}" th:object="${centroEscolar}" method="post">
+                            <input type="hidden" th:field="*{id_institucion}">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" th:field="*{nombre_institucion}" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre de la institucion">
+                                    <input type="text" th:field="*{nombre_institucion}" class="form-control form-control-user" id="nombre_institucion" placeholder="Nombre de la institucion">
                                     <span th:errors = "*{nombre_institucion}" style="color: #E81505"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <select class="custom-select" th:field="*{municipio}" id="municipio" style="border-radius: 10rem; height: 50px; font-size: 0.8rem;">
-                                        <option th:each="municipio : ${municipios}" th:value= ${#numbers.formatInteger(municipio.id_municipio,3)}  th:text="${municipio.nombre_municipio}">
+                                    <select class="custom-select" th:field="*{municipio.id_municipio}" id="municipio" style="border-radius: 10rem; height: 50px; font-size: 0.8rem;">
+                                        <option th:each="option : ${municipios}" th:value= ${#numbers.formatInteger(option.id_municipio,3)}  th:text="${option.nombre_municipio}">
                                         </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <label class="custom-control-label">Activo: </label><input type="radio"  th:field="*{estado}" th:value = "${true}" class="custom-control custom-radio">
+                                    <label >Activo: </label><input type="radio"  th:field="*{estado}" th:value = "${true}" class="custom-control custom-radio">
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="custom-control-label">Inactivo: </label><input type="radio"  th:field="*{estado}" th:value = "${false}" class="custom-control custom-radio">
+                                    <label >Inactivo: </label><input type="radio"  th:field="*{estado}" th:value = "${false}" class="custom-control custom-radio">
                                 </div>
                             </div>
                             <button class="btn btn-primary btn-user btn-block" type="submit">Registrar</button>

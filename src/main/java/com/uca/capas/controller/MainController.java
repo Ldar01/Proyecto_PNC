@@ -201,7 +201,7 @@ public class MainController implements ErrorController {
 		return mav;
 	}
 
-	//Creating Centro Escolar
+	//============ OPTIONS CENTRO ESCOLAR ==============
 
 	@RequestMapping("/register_ce")
 	public ModelAndView register_ce() {
@@ -213,6 +213,7 @@ public class MainController implements ErrorController {
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("centroEscolar", centroEscolar);
+		mav.addObject("municipio", centroEscolar.getMunicipio());
 		mav.addObject("municipios", municipios);
 
 		mav.setViewName("register_ce");
@@ -243,6 +244,25 @@ public class MainController implements ErrorController {
 		mav.setViewName("register_ce");
 		return mav;
 	}
+
+	//EDITAR CENTRO ESCOLAR
+	@RequestMapping(value = "/editarCentroEscolar", method = RequestMethod.POST)
+	public ModelAndView editarCentroEscolar(@RequestParam(value = "id_institucion") int id){
+		ModelAndView mav = new ModelAndView();
+		CentroEscolar centroEscolar = centrosEscolaresService.findOne(id);
+		List<Municipio> municipios = null;
+
+		municipios = municipioService.findAll();
+
+		mav.addObject("centroEscolar", centroEscolar);
+		mav.addObject("municipio", centroEscolar.getMunicipio());
+		mav.addObject("municipios", municipios);
+		mav.setViewName("register_ce");
+
+		return mav;
+	}
+
+	//========= END OF OPTIONS CENTRO ESCOLAR ===============
 
 	@Override
 	public String getErrorPath() {
