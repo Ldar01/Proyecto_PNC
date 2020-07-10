@@ -2,10 +2,11 @@ package com.uca.capas.service;
 
 import java.util.List;
 
+import com.uca.capas.domain.Expediente;
 import org.springframework.dao.DataAccessException;
 
 
-import com.uca.capas.domain.Expediente;
+
 import com.uca.capas.repositories.ExpedienteRepo;
 
 public class ExpedienteServiceImpl implements ExpedienteService {

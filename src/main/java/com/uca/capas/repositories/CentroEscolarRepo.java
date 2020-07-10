@@ -11,10 +11,4 @@ public interface CentroEscolarRepo extends JpaRepository<CentroEscolar, Integer>
 	@Query(nativeQuery = true, value = "update instituciones set estado = :estado where id_institucion = :id_institucion")
 	public void updateEstado(Integer id_institucion, Boolean estado) throws DataAccessException;
 
-<<<<<<< HEAD
-	CentroEscolar findByCentroEscolar(String nombre_institucion);
-	
-=======
-	//CentroEscolar findByCentroEscolar(String nombre_institucion);
->>>>>>> Luisa_Branch
 }
