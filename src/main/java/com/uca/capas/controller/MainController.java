@@ -535,6 +535,18 @@ public class MainController implements ErrorController {
 		mav.setViewName("materias_update");
 		return mav;
 	}
+	//materia_cursada_insert
+
+	@RequestMapping("/materia_cursada_insert")
+	public ModelAndView materia_cursada_insert() {
+		ModelAndView mav = new ModelAndView();
+		EstudianteMateria estudianteMateria = new EstudianteMateria();
+		List<Materia> materias = materiaService.findAll() ;
+		mav.addObject("materia_cursada",estudianteMateria);
+		mav.addObject("materias",materias);
+		mav.setViewName("materia_insert");
+		return mav;
+	}
 //update_materia_c
 	//EDITAR MATERIA
 	@RequestMapping(value = "/editarMateria", method = RequestMethod.POST)

@@ -143,7 +143,9 @@
 
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">Materias Cursadas de <label th:text="${estudiante.primer_nombre + ' ' + estudiante.primer_apellido}"></label></h1>
-
+                <form th:action="@{/materia_cursada_insert}" method="post">
+                    <input class="btn btn-primary" type="submit" value="Agregar Materia Cursada">
+                </form>
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
@@ -158,6 +160,7 @@
                                     <th>Nota</th>
                                     <th>Resultado</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -168,6 +171,7 @@
                                     <th>Ciclo</th>
                                     <th>Nota</th>
                                     <th>Resultado</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -183,6 +187,7 @@
                                             <input type="hidden" name="id_materia_cursada" th:value="${m.id_materia_cursada}">
                                             <input class="btn btn-primary" type="submit" value="Editar Materia">
                                         </form></th>
+
                                     </tr>
                                 </th:block>
                                 </tbody>
